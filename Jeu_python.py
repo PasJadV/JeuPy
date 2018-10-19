@@ -8,6 +8,7 @@ largeur = 800
 hauteur = 600
 fenetre = pygame.display.set_mode((largeur, hauteur))
 
+# un commentaire utile
 
 imagePerso = pygame.image.load("perso2.png").convert_alpha()
 
@@ -35,7 +36,7 @@ def meilleurScore():
 	Bestscore = bestscore_font.render(("Meilleur score: "+ str(bestscore)), True, (255, 255, 255))
 	fenetre.blit(Bestscore, (380,10))
 
-def Pauser2(): 
+def Pauser2():
 	font4 = pygame.font.Font(None, 42)
 	pauser2 = font4.render("Jeu en Pause", True, (0, 0, 0))
 	rect_pauser2 = pauser2.get_rect()
@@ -62,7 +63,7 @@ def joue() :
 
 def playagain() :
 	font1=pygame.font.Font(None, 30)
-	playagain = font1.render(("Press <Enter> to play again"), True, (0,0,0))	
+	playagain = font1.render(("Press <Enter> to play again"), True, (0,0,0))
 	rect_playagain = playagain.get_rect()
 	rect_playagain.x = 180
 	rect_playagain.y = 200
@@ -77,7 +78,7 @@ def gameover() :
 	corps()
 
 def playagain_or_quit() :
-	
+
 	toucher = pygame.key.get_pressed()
 	if toucher [K_RETURN]:
 		return corps()
@@ -85,13 +86,13 @@ def playagain_or_quit() :
 		quit()
 
 	for event in pygame.event.get() :
-		if event.type == QUIT and event.key == [K_ESCAPE] : 
+		if event.type == QUIT and event.key == [K_ESCAPE] :
 			pygame.quit()
 			quit()
-	
+
 		if event.type == [K_RETURN]:
 			return corps()
-		else: 
+		else:
 			return None
 
 
@@ -113,7 +114,7 @@ def corps() :
 	mesBalles=[]
 	deltax =  []
 	deltay =  []
-	
+
 	## Balle qui change le fond
 	rectballes = imageballeS.get_rect()
 	rectballes.x = 250
@@ -143,17 +144,17 @@ def corps() :
 	score=0
 	test=0
 	bestscore=0
-	
+
 	ajout = False
 
 	while continuer:
-	
+
 		framerate.tick(30)
 		i=i+1
-		
+
 		if score%5 == 0 :
 			if ajout :
-				
+
 				rectballe = imageballe.get_rect()
 				rectballe.x = 250
 				rectballe.y = 300
@@ -161,17 +162,17 @@ def corps() :
 				deltax.append(4)
 				deltay.append(-3)
 				ajout = False
-				
+
 		if score%5 == 1 :
 			ajout = True
-		
+
 		## Deplacement des balles
-		
-		
+
+
 		for i in range(len(mesBalles)) :
 			mesBalles[i].x = mesBalles[i].x + deltax[i]
 			mesBalles[i].y = mesBalles[i].y + deltay[i]
-			
+
 			if mesBalles[i].x>=(largeur-mesBalles[i].w) or mesBalles[i].x<0:
 				deltax[i] = - deltax[i]
 				score+=1
@@ -182,12 +183,12 @@ def corps() :
 
 		rectballes.y =rectballes.y + pasy
 		rectballes.x =rectballes.x + pasx
-		
+
 		if rectballes.x>=(largeur-rectballes.w) :
 			pasx = - pasx
 			score+=1
 			test=0
-			
+
 		if rectballes.x<0:
 			pasx = - pasx
 			score+=1
@@ -202,10 +203,10 @@ def corps() :
 			pasy = - pasy
 			score+=1
 			test=3
-			
+
 		scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
-		
-		
+
+
 
 		for event in pygame.event.get() :
 			if event.type == QUIT :
@@ -214,15 +215,15 @@ def corps() :
 			if event.type == KEYUP :
 			   if event.key == K_SPACE :
 			   	pause=True
-				
+
 				while pause:
-					framerate.tick()	
+					framerate.tick()
 					for event in pygame.event.get() :
 						if event.type == QUIT :
 							quit()
-						
+
 						if event.type == KEYUP :
-						  
+
 						   if event.key == K_SPACE :
 							pause = False
 						   if event.key == K_ESCAPE :
@@ -230,17 +231,17 @@ def corps() :
 					Pauser2()
 					Pauser()
 					pygame.display.flip()
-						
+
 
 
 		touches = pygame.key.get_pressed()
-			
+
 		if touches [K_ESCAPE] :
 			continuer=0
 
 		if touches [K_DOWN] :
 			rectPerso.y = rectPerso.y + pasPerso
-	
+
 		if touches [K_UP] :
 			rectPerso.y = rectPerso.y - pasPerso
 
@@ -255,33 +256,33 @@ def corps() :
 
 		if rectPerso.x > largeur - (rectPerso.w) :
 			rectPerso.x = largeur - (rectPerso.w)
-			
+
 		if rectPerso.y<0 :
-			rectPerso.y = rectPerso.y - rectPerso.y 
+			rectPerso.y = rectPerso.y - rectPerso.y
 
 		if rectPerso.y > hauteur - (rectPerso.h) :
 			rectPerso.y = hauteur - (rectPerso.h)
-	
+
 		if pygame.Rect.colliderect(rectballes, rectPerso) :
 			continuer = 0
 			gameover()
-			
+
 		for b in mesBalles :
 			if pygame.Rect.colliderect(b, rectPerso) :
 				continuer = 0
 				gameover()
 
 		if test==1:
-			fenetre.blit(imageFond2, rectFond2)	
+			fenetre.blit(imageFond2, rectFond2)
 
 		elif test==2:
 			fenetre.blit(imageFond3, rectFond3)
 
 		elif test==3:
 			fenetre.blit(imageFond4, rectFond4)
-		else: 
+		else:
 			fenetre.blit(imageFond, rectFond)
-		
+
 		fenetre.blit(imagePerso, rectPerso)
 
 		fenetre.blit(imageText, rectText)
@@ -293,31 +294,29 @@ def corps() :
 		for b in mesBalles :
 			fenetre.blit(imageballe, b)
 
-		
 
-		fenetre.blit(scoretext, (520,10)) 
 
-		
+		fenetre.blit(scoretext, (520,10))
+
+
 
 		pygame.display.flip()
 
-	
+
 	meilleurScore()
 
-	
+
 	touched = pygame.key.get_pressed()
 	if touched [K_ESCAPE] :
 		continuer=0
 	for event in pygame.event.get():
 		if event.type == [K_RETURN]:
 			return corps()
-			
-		if event.type == QUIT:     
+
+		if event.type == QUIT:
 			continuer=0
 
 	pygame.display.flip()
 
 corps()
 pygame.quit()
-
-
