@@ -32,11 +32,9 @@ while continuer:
         rectv.y-=10
     if touched [pygame.K_DOWN] and rectv.y<575:
         rectv.y+=10
-    
 
     fenetre.blit(imageFond, rectFond)
     fenetre.blit(imgvaisseau, rectv)
-
 
     if touched [pygame.K_ESCAPE] :
        		 	continuer=0
