@@ -26,14 +26,13 @@ while continuer:
     touched = pygame.key.get_pressed()
     if touched [pygame.K_LEFT] and rectv.x>0:
         rectv.x-=10
-
     if touched [pygame.K_RIGHT] and rectv.x<590:
         rectv.x+=10
     if touched [pygame.K_UP] and rectv.y>0:
         rectv.y-=10
     if touched [pygame.K_DOWN] and rectv.y<575:
         rectv.y+=10
-
+    
 
     fenetre.blit(imageFond, rectFond)
     fenetre.blit(imgvaisseau, rectv)
