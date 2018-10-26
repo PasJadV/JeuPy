@@ -1,2 +1,0 @@
-# JeuPy
-Jeu python
