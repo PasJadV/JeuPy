@@ -20,28 +20,27 @@ rectv.x = 295
 rectv.y = 555
 
 rectprojectil= imgprojectil.get_rect()
-rectprojectil.x= rectv.x+(rectv.x/2)
-rectprojectil.y= rectv.y
+rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
+rectprojectil.y= rectv.y-20
 
 framerate= pygame.time.Clock()
 continuer=1
 
 while continuer:
     framerate.tick(30)
-
     touched = pygame.key.get_pressed()
     if touched [pygame.K_LEFT] and rectv.x>0:
         rectv.x-=10
-        rectprojectil.x= rectv.x+(rectx.x/2)
+        rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
     if touched [pygame.K_RIGHT] and rectv.x<590:
         rectv.x+=10
-        rectprojectil.x= rectv.x+(rectv.x/2)
-    if touched [pygame.K_UP] and rectv.y>0:
+        rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
+    if touched [pygame.K_UP] and rectv.y>hauteur/2:
         rectv.y-=10
-        rectprojectil.y= rectv.y
+        rectprojectil.y= rectv.y-20
     if touched [pygame.K_DOWN] and rectv.y<575:
         rectv.y+=10
-        rectprojectil.y= rectv.y
+        rectprojectil.y= rectv.y-20
 
     fenetre.blit(imageFond, rectFond)
     fenetre.blit(imgvaisseau, rectv)
