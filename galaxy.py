@@ -33,7 +33,7 @@ def Pauser2():
 
 def Pauser() :
 	font3 = pygame.font.Font(None, 32)
-	pauser = font3.render("Appuyez sur <Espace> pour continuer", True, (0, 0, 0))
+	pauser = font3.render("Appuyez sur <Entrer> pour continuer", True, (0, 0, 0))
 	rect_pauser = pauser.get_rect()
 	rect_pauser.x = 120
 	rect_pauser.y = 250
