@@ -2,7 +2,9 @@ import sys, pygame
 from pygame.locals import *
 
 pygame.init()
-
+icone = pygame.image.load("ico.png")
+pygame.display.set_icon(icone)
+pygame.display.set_caption("Gwalaxy")
 largeur = 640
 hauteur = 640
 fenetre = pygame.display.set_mode((largeur, hauteur))
