@@ -1,4 +1,4 @@
-import sys, pygame
+import sys, pygame, math
 from pygame.locals import *
 
 pygame.init()
@@ -12,6 +12,8 @@ fenetre = pygame.display.set_mode((largeur, hauteur))
 imageFond = pygame.image.load("galaxy.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
+imgenn = pygame.image.load("frame_0_delay-0.1s.png").convert_alpha()
+
 font = pygame.font.Font(None, 34)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
 
@@ -56,17 +58,31 @@ def corps():
 	rectFond = imageFond.get_rect()
 	rectFond.x = -320
 	rectFond.y = 0
-
+	tab_enn = []
+	rectenn = imgenn.get_rect()
 	rectv = imgvaisseau.get_rect()
 	rectv.x = 295
 	rectv.y = 555
 	tab_tir=[]
 	rectprojectil= imgprojectil.get_rect()
-	vitesse = 0
+	vitesse = 7
 	framerate= pygame.time.Clock()
 	continuer=1
+	angle=0
+	temps=0
 	while continuer:
 		framerate.tick(30)
+		temps+=1
+		angle = math.pi / 24 *temps
+		if temps%5 ==0:
+			rectenn = imgenn.get_rect()
+			rectenn.x = 400
+			rectenn.y = 0
+			tab_enn.append(rectenn)
+
+		for enn in tab_enn:
+			enn.x = 50* math.cos (angle) + 400
+			enn.y = temps
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
@@ -77,17 +93,15 @@ def corps():
 			rectv.y-=10
 		if touched [pygame.K_DOWN] and rectv.y<575:
 			rectv.y+=10
+
 		for tir in tab_tir:
 			tir.y -= vitesse
-
 		if touched [pygame.K_SPACE]:
 			rectprojectil= imgprojectil.get_rect()
 			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
 			rectprojectil.y= rectv.y-2
 			tab_tir.append(rectprojectil)
-			vitesse+=2
-		if vitesse >=20 :
-			vitesse = 1
+
 		for event in pygame.event.get() :
 			if event.type == QUIT:
 				sys.exit
@@ -114,9 +128,10 @@ def corps():
 		fenetre.blit(imageText, rectText)
 		fenetre.blit(imageText2, rectText2)
 		fenetre.blit(imageText3, rectText3)
+		for enn in tab_enn:
+			fenetre.blit(imgenn, enn)
 		for t in tab_tir:
 			fenetre.blit(imgprojectil, t)
-
 		pygame.display.flip()
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_ESCAPE] :
