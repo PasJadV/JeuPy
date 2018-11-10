@@ -11,7 +11,7 @@ fenetre = pygame.display.set_mode((largeur, hauteur))
 #---------------------------Medias divers------------------------
 imageFond = pygame.image.load("galaxy.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
-imgprojectil= pygame.image.load("balle.gif").convert_alpha()
+imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 font = pygame.font.Font(None, 34)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
 
@@ -62,26 +62,32 @@ def corps():
 	rectv.y = 555
 	tab_tir=[]
 	rectprojectil= imgprojectil.get_rect()
-
-
+	vitesse = 0
 	framerate= pygame.time.Clock()
 	continuer=1
 	while continuer:
 		framerate.tick(30)
+
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
 			rectv.x-=10
-			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
 		if touched [pygame.K_RIGHT] and rectv.x<590:
 			rectv.x+=10
-			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
 		if touched [pygame.K_UP] and rectv.y>hauteur/2:
 			rectv.y-=10
-			rectprojectil.y= rectv.y-20
 		if touched [pygame.K_DOWN] and rectv.y<575:
 			rectv.y+=10
-			rectprojectil.y= rectv.y-20
+		for tir in tab_tir:
+			tir.y -= vitesse
 
+		if touched [pygame.K_SPACE]:
+			rectprojectil= imgprojectil.get_rect()
+			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
+			rectprojectil.y= rectv.y-2
+			tab_tir.append(rectprojectil)
+			vitesse+=2
+		if vitesse >=20 :
+			vitesse = 1
 		for event in pygame.event.get() :
 			if event.type == QUIT:
 				sys.exit
@@ -108,20 +114,13 @@ def corps():
 		fenetre.blit(imageText, rectText)
 		fenetre.blit(imageText2, rectText2)
 		fenetre.blit(imageText3, rectText3)
-
-		if touched [pygame.K_SPACE]:
-			rectprojectil= imgprojectil.get_rect()
-			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
-			rectprojectil.y= rectv.y-20
-			tab_tir.append(rectprojectil)
-			fenetre.blit(imgprojectil, rectprojectil)
 		for t in tab_tir:
-			fenetre.blit(imgprojectil, t )
-		pygame.display.flip()
+			fenetre.blit(imgprojectil, t)
 
+		pygame.display.flip()
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_ESCAPE] :
-					continuer=0
+			continuer=0
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				continuer=0
