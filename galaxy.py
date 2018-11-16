@@ -170,6 +170,7 @@ def corps():
 			for tir in tab_tir:
 				if r.colliderect(tir):
 					r.y = hauteur
+					tir.y = 0
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
