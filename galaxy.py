@@ -44,6 +44,8 @@ rectText3.y = 50
 score_font = pygame.font.Font(None, 22)
 
 
+
+
 framerate= pygame.time.Clock()
 
 def Pauser2():
@@ -135,8 +137,9 @@ def corps():
 
 	while continuer:
 		framerate.tick(30)
-		print(temps)
-
+		#print(temps)
+		tab_enn2 = []
+		tab_ast2=[]
 		temps+=1
 		#vague d'astéroide
 		if temps%10 ==0 and temps < 200:
@@ -182,20 +185,28 @@ def corps():
 			#if rectenn.x>0:
 >>>>>>> Stashed changes
 
-		nettoyage=[]
 		for enn in tab_enn:
-			if pygame.Rect.colliderect(rectprojectil, enn):
-				nettoyage.append(enn)
-		tab_enn=nettoyage
+			if enn.y < hauteur:
+				tab_enn2.append(enn)
+
+		tab_enn=tab_enn2
+
+		for enn in tab_enn:
+			for tir in tab_tir:
+				if enn.colliderect(tir):
+					enn.y = hauteur
+					tir.y = hauteur
+
 
 		for ast in tab_ast:
 			ast.y += 5
 
-		nettoyage=[]
+
 		for r in tab_ast:
-			if rectast.y < hauteur:
-				nettoyage.append(r)
-		tab_ast=nettoyage
+			if r.y < hauteur:
+				tab_ast2.append(r)
+
+		tab_ast = tab_ast2
 
 
 		touched = pygame.key.get_pressed()
@@ -225,11 +236,12 @@ def corps():
 		for tir in tab_tir:
 			tir.y -= vitesse
 
-		nettoyage=[]
+		tab_tir2 = []
 		for r in tab_tir:
-			if rectprojectil.y > 0:
-				nettoyage.append(r)
-		tab_tir=nettoyage
+			if r.y > 0:
+				tab_tir2.append(r)
+		tab_tir=tab_tir2
+		#print("nb_tir=", str(len(tab_ast)))
 
 
 
@@ -253,10 +265,10 @@ def corps():
 						Pauser2()
 						Pauser()
 						pygame.display.flip()
-
-		if pygame.Rect.colliderect(rectv, rectenn) :
-			continuer = 0
-			gameover()
+		#for t in tab_enn:
+		#	if t.colliderect(rectv) :
+		#		continuer = 0
+		#		gameover()
 
 		fenetre.blit(imageFond, rectFond)
 		fenetre.blit(imgvaisseau, rectv)
