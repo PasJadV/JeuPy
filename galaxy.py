@@ -14,6 +14,12 @@ fenetre = pygame.display.set_mode((largeur, hauteur))
 imageFond = pygame.image.load("galaxy.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
+<<<<<<< Updated upstream
+=======
+
+tab_tirenn=[]
+img_tirenn= pygame.image.load("tirenn.png").convert_alpha()
+>>>>>>> Stashed changes
 tab_ast=[]
 imgastro = pygame.image.load("astro.png").convert_alpha()
 tab_enn=[]
@@ -100,10 +106,16 @@ def corps():
 	rectFond.x = -320
 	rectFond.y = 0
 
+
 	tab_ast = []
 	rectast = imgastro.get_rect()
 	tab_enn = []
 	rectenn = imgenn.get_rect()
+	tab_tirenn=[]
+	recttirenn = img_tirenn.get_rect()
+
+
+
 
 	rectv = imgvaisseau.get_rect()
 	rectv.x = largeur/2 - rectv.w
@@ -111,7 +123,6 @@ def corps():
 	tab_tir=[]
 	tab_tir2=[]
 	rectprojectil= imgprojectil.get_rect()
-
 	vitesse = 7
 	framerate= pygame.time.Clock()
 
@@ -120,6 +131,7 @@ def corps():
 	temps=0
 	score=0
 	ten=0
+	l=imgenn.get_rect()
 
 	while continuer:
 		framerate.tick(30)
@@ -127,25 +139,48 @@ def corps():
 
 		temps+=1
 		#vague d'astéroide
-		if temps%5 ==0 and temps < 200:
+		if temps%10 ==0 and temps < 200:
 			rectast = imgastro.get_rect()
 			rectast.x = randrange(0,largeur-rectast.w)
 			rectast.y = 0
 			tab_ast.append(rectast)
 		#vague ennemis
+<<<<<<< Updated upstream
 		if temps%50 ==0 and temps > 250:
+=======
+		if temps%30 ==0 and temps > 200:
+>>>>>>> Stashed changes
 			rectenn = imgenn.get_rect()
 			rectenn.x = randrange(0,largeur-rectenn.w)
 			rectenn.y = 0
 			tab_enn.append(rectenn)
 		#tir ennemis
+<<<<<<< Updated upstream
 		#if temps%30 ==0 and temps > 200:
+=======
+		if temps%30 ==0 and temps > 200:
+			recttirenn = img_tirenn.get_rect()
+			recttirenn.x=rectenn.x+33
+			recttirenn.y=rectenn.h/2
+			tab_tirenn.append(recttirenn)
+
+		for tirenn in tab_tirenn:
+			tirenn.y+=6
+
+>>>>>>> Stashed changes
 		for enn in tab_enn:
 			#time = 0
 			#time +=1
 			#enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
+<<<<<<< Updated upstream
 			#enn.y +=20*math.sin(2*angle)
 			enn.y +=1
+=======
+			#enn.x=100*math.cos(angle)+largeur/2
+			#enn.y=50*math.sin(angle)+largeur/2
+			enn.y+=3
+			#if rectenn.x>0:
+>>>>>>> Stashed changes
 
 		nettoyage=[]
 		for enn in tab_enn:
@@ -161,6 +196,7 @@ def corps():
 			if rectast.y < hauteur:
 				nettoyage.append(r)
 		tab_ast=nettoyage
+
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
@@ -184,6 +220,7 @@ def corps():
 		#		tab_tir2.append(a)
 		#tab_tir=[]
 		#tab_tir=tab_tir2
+		scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
 
 		for tir in tab_tir:
 			tir.y -= vitesse
@@ -194,7 +231,7 @@ def corps():
 				nettoyage.append(r)
 		tab_tir=nettoyage
 
-		scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
+
 
 		for event in pygame.event.get() :
 			if event.type == QUIT:
@@ -234,6 +271,8 @@ def corps():
 			fenetre.blit(imgenn, enn)
 		for t in tab_tir:
 			fenetre.blit(imgprojectil, t)
+		for tiree in tab_tirenn:
+			fenetre.blit(img_tirenn, tiree)
 		pygame.display.flip()
 
 #----------------------------execution du programme----------------
