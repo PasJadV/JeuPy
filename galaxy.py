@@ -18,9 +18,8 @@ imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 tab_ast=[]
 imgastro = pygame.image.load("astro.png").convert_alpha()
 tab_enn=[]
-imgenn = pygame.image.load("enn.png").convert_alpha()
-tab_enne=[]
-imgenne = pygame.image.load("ship.png").convert_alpha()
+imgenn = pygame.image.load("ship.png").convert_alpha()
+
 
 font = pygame.font.Font(None, 20)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
@@ -107,7 +106,7 @@ def corps():
 	rectast = imgastro.get_rect()
 	tab_enn = []
 	rectenn = imgenn.get_rect()
-    #tab_enne[]
+
 
 
 
@@ -124,6 +123,7 @@ def corps():
 	angle=0
 	temps=0
 	score=0
+	ten=0
 
 	while continuer:
 		framerate.tick(30)
@@ -136,27 +136,27 @@ def corps():
 			rectast.x = randrange(0,largeur-rectast.w)
 			rectast.y = 0
 			tab_ast.append(rectast)
-
-            #if tirage<1.0/30
-            #rectast = imgastro.get_rect()
-            #r.x=random.radint(0,largeur-r.w)
-            #r.y=0
-
-
-		if temps%5 ==0 and temps > 200:
+		#vague ennemis
+		if temps%30 ==0 and temps > 200:
 			rectenn = imgenn.get_rect()
-			#rectenn.x = randrange(0,largeur-rectenn.w)
-			rectenn.x = largeur/2
-			rectenn.y = -30
+			rectenn.x = randrange(0,largeur-rectenn.w)
+			#rectenn.x = largeur/2
+			rectenn.y = 0
 			tab_enn.append(rectenn)
 
+		#tir ennemis
+		#if temps%30 ==0 and temps > 200:
 
 
 		for enn in tab_enn:
-			time = 0
-			time +=1
-			enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
-			enn.y = temps
+			#time = 0
+			#time +=1
+			#enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
+
+			angle = math.pi/192*temps
+			enn.x=100*math.cos(angle)+largeur/2
+			enn.y=100*math.sin(angle)+largeur/2
+			#enn.y+=3
 			#if rectenn.x>0:
 
 			#if rectenn.x<largeur-rectenn.w:
@@ -235,7 +235,7 @@ def corps():
 			continuer = 0
 			gameover()
 		if pygame.Rect.colliderect(rectprojectil, rectenn) :
-		 	score +=1
+			score +=1
 
 		fenetre.blit(imageFond, rectFond)
 		fenetre.blit(imgvaisseau, rectv)
