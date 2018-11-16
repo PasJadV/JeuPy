@@ -14,6 +14,7 @@ fenetre = pygame.display.set_mode((largeur, hauteur))
 imageFond = pygame.image.load("galaxy.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
+imgprojectil= pygame.image.load("tirenn.png").convert_alpha()
 
 tab_ast=[]
 imgastro = pygame.image.load("astro.png").convert_alpha()
@@ -107,15 +108,14 @@ def corps():
 	tab_enn = []
 	rectenn = imgenn.get_rect()
 
-
-
-
+	tir_enn = []
 	rectv = imgvaisseau.get_rect()
 	rectv.x = largeur/2 - rectv.w
 	rectv.y = hauteur - hauteur/4
 	tab_tir=[]
 	tab_tir2=[]
 	rectprojectil= imgprojectil.get_rect()
+
 	vitesse = 7
 	framerate= pygame.time.Clock()
 
@@ -137,7 +137,7 @@ def corps():
 			rectast.y = 0
 			tab_ast.append(rectast)
 		#vague ennemis
-		if temps%30 ==0 and temps > 200:
+		if temps%30 ==0 and temps > 250:
 			rectenn = imgenn.get_rect()
 			rectenn.x = randrange(0,largeur-rectenn.w)
 			#rectenn.x = largeur/2
@@ -153,9 +153,10 @@ def corps():
 			#time +=1
 			#enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
 
-			angle = math.pi/192*temps
+			angle = math.pi/30*temps
 			enn.x=100*math.cos(angle)+largeur/2
-			enn.y=100*math.sin(angle)+largeur/2
+			#enn.y +=20*math.sin(2*angle)
+			enn.y +=1
 			#enn.y+=3
 			#if rectenn.x>0:
 
@@ -174,7 +175,6 @@ def corps():
 			if rectast.y < hauteur:
 				nettoyage.append(r)
 		tab_ast=nettoyage
-
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
