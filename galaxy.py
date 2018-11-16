@@ -14,7 +14,7 @@ fenetre = pygame.display.set_mode((largeur, hauteur))
 imageFond = pygame.image.load("galaxy.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
-imgprojectil= pygame.image.load("tirenn.png").convert_alpha()
+imgenn= pygame.image.load("tirenn.png").convert_alpha()
 
 tab_ast=[]
 imgastro = pygame.image.load("astro.png").convert_alpha()
@@ -102,7 +102,6 @@ def corps():
 	rectFond.x = -320
 	rectFond.y = 0
 
-
 	tab_ast = []
 	rectast = imgastro.get_rect()
 	tab_enn = []
@@ -146,7 +145,6 @@ def corps():
 
 		#tir ennemis
 		#if temps%30 ==0 and temps > 200:
-
 
 		for enn in tab_enn:
 			#time = 0
