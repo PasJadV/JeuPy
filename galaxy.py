@@ -37,9 +37,6 @@ rectText3.x = 10
 rectText3.y = 50
 score_font = pygame.font.Font(None, 22)
 
-
-
-
 framerate= pygame.time.Clock()
 
 def Pauser2():
@@ -136,42 +133,43 @@ def corps():
 			rectast.y = 0
 			tab_ast.append(rectast)
 		#vague ennemis
-		if temps%50 ==0 and temps > 250:
+		if temps%50 ==0 and temps > 200:
 			rectenn = imgenn.get_rect()
 			rectenn.x = randrange(0,largeur-rectenn.w)
 			rectenn.y = 0
 			tab_enn.append(rectenn)
-		#tir ennemis
 		#if temps%30 ==0 and temps > 200:
 		for enn in tab_enn:
+			enn.y +=1
 			#time = 0
 			#time +=1
 			#enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
 			#enn.y +=20*math.sin(2*angle)
-			enn.y +=1
 
 		for enn in tab_enn:
 			if enn.y < hauteur:
 				tab_enn2.append(enn)
-
 		tab_enn=tab_enn2
 
 		for enn in tab_enn:
 			for tir in tab_tir:
 				if enn.colliderect(tir):
 					enn.y = hauteur
-					tir.y = hauteur
-
+					tir.y = 0
+					score = score+1
 
 		for ast in tab_ast:
 			ast.y += 5
 
-
 		for r in tab_ast:
 			if r.y < hauteur:
 				tab_ast2.append(r)
-
 		tab_ast = tab_ast2
+
+		for r in tab_ast:
+			for tir in tab_tir:
+				if r.colliderect(tir):
+					r.y = hauteur
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
@@ -184,7 +182,7 @@ def corps():
 			rectv.y+=10
 		if touched [pygame.K_ESCAPE] :
 			continuer=0
-
+		#tir ennemis
 		if touched [pygame.K_SPACE]:
 			rectprojectil= imgprojectil.get_rect()
 			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
@@ -195,19 +193,15 @@ def corps():
 		#		tab_tir2.append(a)
 		#tab_tir=[]
 		#tab_tir=tab_tir2
-
 		for tir in tab_tir:
 			tir.y -= vitesse
-
 		tab_tir2 = []
 		for r in tab_tir:
-			if r.y > 0:
+			if r.y > 0 and r.y<hauteur:
 				tab_tir2.append(r)
 		tab_tir=tab_tir2
 		#print("nb_tir=", str(len(tab_ast)))
-
 		scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
-
 		for event in pygame.event.get() :
 			if event.type == QUIT:
 				sys.exit
