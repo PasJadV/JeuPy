@@ -35,6 +35,8 @@ imageText3 = font3.render("<Space> pour envoyer des projectiles", True, (255, 25
 rectText3 = imageText2.get_rect()
 rectText3.x = 10
 rectText3.y = 50
+score_font = pygame.font.Font(None, 22)
+
 
 framerate= pygame.time.Clock()
 
@@ -116,6 +118,7 @@ def corps():
 	continuer=1
 	angle=0
 	temps=0
+	score=0
 
 	while continuer:
 		framerate.tick(30)
@@ -192,6 +195,8 @@ def corps():
 				nettoyage.append(r)
 		tab_tir=nettoyage
 
+		scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
+
 		for event in pygame.event.get() :
 			if event.type == QUIT:
 				sys.exit
@@ -216,12 +221,16 @@ def corps():
 		if pygame.Rect.colliderect(rectv, rectenn) :
 			continuer = 0
 			gameover()
+		if pygame.Rect.colliderect(rectprojectil, rectenn) :
+		 	score +=1
 
 		fenetre.blit(imageFond, rectFond)
 		fenetre.blit(imgvaisseau, rectv)
 		fenetre.blit(imageText, rectText)
 		fenetre.blit(imageText2, rectText2)
 		fenetre.blit(imageText3, rectText3)
+		fenetre.blit(scoretext, (520,10)) 
+
 		for ast in tab_ast:
 			fenetre.blit(imgastro, ast)
 		for enn in tab_enn:
