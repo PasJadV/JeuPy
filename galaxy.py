@@ -3,25 +3,6 @@ from random import randrange
 from pygame.locals import *
 
 #----------------------definition des options--------------------
-def Pauser2():
-	font4 = pygame.font.Font(None, 42)
-	pauser2 = font4.render("Jeu en Pause", True, (0, 0, 0))
-	rect_pauser2 = pauser2.get_rect()
-	rect_pauser2.x = 200
-	rect_pauser2.y = 200
-	fenetre.blit(pauser2, rect_pauser2)
-
-
-def Pauser() :
-	font3 = pygame.font.Font(None, 32)
-	pauser = font3.render("Appuyez sur <Entrer> pour continuer", True, (0, 0, 0))
-	rect_pauser = pauser.get_rect()
-	rect_pauser.x = 120
-	rect_pauser.y = 250
-	fenetre.blit(pauser, rect_pauser)
-
-
-
 pygame.init()
 icone = pygame.image.load("ico.png")
 pygame.display.set_icon(icone)
@@ -39,8 +20,6 @@ imgastro = pygame.image.load("astro.png").convert_alpha()
 tab_enn=[]
 imgenn = pygame.image.load("enn.png").convert_alpha()
 
-
-
 font = pygame.font.Font(None, 20)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
 rectText = imageText.get_rect()
@@ -57,6 +36,60 @@ rectText3 = imageText2.get_rect()
 rectText3.x = 10
 rectText3.y = 50
 
+framerate= pygame.time.Clock()
+
+def Pauser2():
+	font4 = pygame.font.Font(None, 42)
+	pauser2 = font4.render("Jeu en Pause", True, (0, 0, 0))
+	rect_pauser2 = pauser2.get_rect()
+	rect_pauser2.x = 200
+	rect_pauser2.y = 200
+	fenetre.blit(pauser2, rect_pauser2)
+
+def Pauser() :
+	font3 = pygame.font.Font(None, 32)
+	pauser = font3.render("Appuyez sur <Entrer> pour continuer", True, (0, 0, 0))
+	rect_pauser = pauser.get_rect()
+	rect_pauser.x = 120
+	rect_pauser.y = 250
+	fenetre.blit(pauser, rect_pauser)
+
+def joue() :
+	font2=pygame.font.Font(None, 42)
+	joue = font2.render(("GAMEOVER"), True, (0,0,0))
+	rect_joue=joue.get_rect()
+	rect_joue.x =200
+	rect_joue.y= 150
+	fenetre.blit(joue, rect_joue)
+
+def playagain() :
+	font1=pygame.font.Font(None, 30)
+	playagain = font1.render(("Appuyer sur R pour rejouer"), True, (255,255,255))
+	rect_playagain = playagain.get_rect()
+	rect_playagain.x = 180
+	rect_playagain.y = 200
+	fenetre.blit(playagain, rect_playagain)
+
+def gameover() :
+	joue()
+	playagain()
+	pygame.display.flip()
+	while playagain_or_quit()== None:
+		framerate.tick()
+	corps()
+
+def playagain_or_quit() :
+
+	toucher = pygame.key.get_pressed()
+	if toucher [K_r]:
+		return corps()
+	if toucher [K_ESCAPE]:
+		quit()
+
+	for event in pygame.event.get() :
+		if event.type == QUIT and event.key == [K_ESCAPE] :
+			pygame.quit()
+			quit()
 
 #--------------------------Corps du jeu--------------------------
 def corps():
@@ -75,6 +108,7 @@ def corps():
 	rectv.x = largeur/2 - rectv.w
 	rectv.y = hauteur - hauteur/4
 	tab_tir=[]
+	tab_tir2=[]
 	rectprojectil= imgprojectil.get_rect()
 	vitesse = 7
 	framerate= pygame.time.Clock()
@@ -89,16 +123,16 @@ def corps():
 
 		temps+=1
 		#vague d'astéroide
-		if temps%5 ==0 and temps < 10:
+		if temps%5 ==0 and temps < 200:
 			rectast = imgastro.get_rect()
 			rectast.x = randrange(0,largeur-rectast.w)
 			rectast.y = 0
 			tab_ast.append(rectast)
 
-		if temps%5 ==0 and temps > 15:
+		if temps%5 ==0 and temps > 250:
 			rectenn = imgenn.get_rect()
-		#	rectenn.x = randrange(0,largeur-rectenn.w)
-			rectenn.x = largeur/2
+			rectenn.x = randrange(0,largeur-rectenn.w)
+		#	rectenn.x = largeur/2
 			rectenn.y = hauteur/4
 			tab_enn.append(rectenn)
 
@@ -113,8 +147,8 @@ def corps():
 
 			#if rectenn.y>0:
 
-			#if rectenn.y<hauteur/2:
-
+			#if enn.y>hauteur/2:
+			#	enn.y -=
 
 		for ast in tab_ast:
 			ast.y += 5
@@ -124,8 +158,6 @@ def corps():
 			if rectast.y < hauteur:
 				nettoyage.append(r)
 		tab_ast=nettoyage
-
-
 
 
 		touched = pygame.key.get_pressed()
@@ -145,6 +177,11 @@ def corps():
 			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
 			rectprojectil.y= rectv.y-2
 			tab_tir.append(rectprojectil)
+		#for a in tab_tir:
+		#	if a.x>=0 and a.x<=(largeur-rectprojectil.w) and a.y>=0 and a.y<=(hauteur-rectprojectil.h):
+		#		tab_tir2.append(a)
+		#tab_tir=[]
+		#tab_tir=tab_tir2
 
 		for tir in tab_tir:
 			tir.y -= vitesse
@@ -154,8 +191,6 @@ def corps():
 			if rectprojectil.y > 0:
 				nettoyage.append(r)
 		tab_tir=nettoyage
-
-
 
 		for event in pygame.event.get() :
 			if event.type == QUIT:
@@ -178,6 +213,10 @@ def corps():
 						Pauser()
 						pygame.display.flip()
 
+		if pygame.Rect.colliderect(rectv, rectenn) :
+			continuer = 0
+			gameover()
+
 		fenetre.blit(imageFond, rectFond)
 		fenetre.blit(imgvaisseau, rectv)
 		fenetre.blit(imageText, rectText)
@@ -191,9 +230,6 @@ def corps():
 			fenetre.blit(imgprojectil, t)
 
 		pygame.display.flip()
-
-
-
 
 #----------------------------execution du programme----------------
 corps()
