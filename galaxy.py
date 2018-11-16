@@ -19,6 +19,8 @@ tab_ast=[]
 imgastro = pygame.image.load("astro.png").convert_alpha()
 tab_enn=[]
 imgenn = pygame.image.load("enn.png").convert_alpha()
+tab_enne=[]
+imgenne = pygame.image.load("ship.png").convert_alpha()
 
 font = pygame.font.Font(None, 20)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
@@ -105,6 +107,9 @@ def corps():
 	rectast = imgastro.get_rect()
 	tab_enn = []
 	rectenn = imgenn.get_rect()
+    #tab_enne[]
+
+
 
 	rectv = imgvaisseau.get_rect()
 	rectv.x = largeur/2 - rectv.w
@@ -132,12 +137,20 @@ def corps():
 			rectast.y = 0
 			tab_ast.append(rectast)
 
-		if temps%5 ==0 and temps > 250:
+            #if tirage<1.0/30
+            #rectast = imgastro.get_rect()
+            #r.x=random.radint(0,largeur-r.w)
+            #r.y=0
+
+
+		if temps%5 ==0 and temps > 200:
 			rectenn = imgenn.get_rect()
-			rectenn.x = randrange(0,largeur-rectenn.w)
-		#	rectenn.x = largeur/2
-			rectenn.y = hauteur/4
+			#rectenn.x = randrange(0,largeur-rectenn.w)
+			rectenn.x = largeur/2
+			rectenn.y = -30
 			tab_enn.append(rectenn)
+
+
 
 		for enn in tab_enn:
 			time = 0
@@ -229,7 +242,7 @@ def corps():
 		fenetre.blit(imageText, rectText)
 		fenetre.blit(imageText2, rectText2)
 		fenetre.blit(imageText3, rectText3)
-		fenetre.blit(scoretext, (520,10)) 
+		fenetre.blit(scoretext, (520,10))
 
 		for ast in tab_ast:
 			fenetre.blit(imgastro, ast)
@@ -237,7 +250,6 @@ def corps():
 			fenetre.blit(imgenn, enn)
 		for t in tab_tir:
 			fenetre.blit(imgprojectil, t)
-
 		pygame.display.flip()
 
 #----------------------------execution du programme----------------
