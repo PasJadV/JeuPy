@@ -19,6 +19,13 @@ imgastro = pygame.image.load("astro.png").convert_alpha()
 tab_enn=[]
 imgenn = pygame.image.load("ship.png").convert_alpha()
 
+imagevie1 = pygame.image.load("coeur1.png").convert_alpha()
+imagevie2 = pygame.image.load("coeur2.png").convert_alpha()
+imagevie3 = pygame.image.load("coeur3.png").convert_alpha()
+imagevie4 = pygame.image.load("coeur4.png").convert_alpha()
+vrect = imagevie4.get_rect()
+vrect.x = 400
+vrect.y = 10
 
 font = pygame.font.Font(None, 20)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
@@ -66,7 +73,7 @@ def joue() :
 
 def playagain() :
 	font1=pygame.font.Font(None, 30)
-	playagain = font1.render(("Appuyer sur R pour rejouer"), True, (255,255,255))
+	playagain = font1.render(("Appuyer sur R pour rejouer ou escape pour quitter"), True, (255,255,255))
 	rect_playagain = playagain.get_rect()
 	rect_playagain.x = 180
 	rect_playagain.y = 200
@@ -120,14 +127,17 @@ def corps():
 	temps=0
 	score=0
 	ten=0
+	tab_vie=[]
 
 	while continuer:
 		framerate.tick(30)
-		print(temps)
+		print(vie)
 
 		temps+=1
 		#vague d'astéroide
+
 		if temps%5 ==0 and temps < 200:
+
 			rectast = imgastro.get_rect()
 			rectast.x = randrange(0,largeur-rectast.w)
 			rectast.y = 0
@@ -147,11 +157,7 @@ def corps():
 			#enn.y +=20*math.sin(2*angle)
 			enn.y +=1
 
-		nettoyage=[]
-		for enn in tab_enn:
-			if pygame.Rect.colliderect(rectprojectil, enn):
-				nettoyage.append(enn)
-		tab_enn=nettoyage
+
 
 		for ast in tab_ast:
 			ast.y += 5
@@ -218,14 +224,27 @@ def corps():
 						pygame.display.flip()
 
 		if pygame.Rect.colliderect(rectv, rectenn) :
+			vie = vie - 1
+
+		if vie==0 :
 			continuer = 0
 			gameover()
+
 
 		fenetre.blit(imageFond, rectFond)
 		fenetre.blit(imgvaisseau, rectv)
 		fenetre.blit(imageText, rectText)
 		fenetre.blit(imageText2, rectText2)
 		fenetre.blit(imageText3, rectText3)
+		if vie == 1 :
+			fenetre.blit(imagevie1,vrect)
+		if vie == 2 :
+			fenetre.blit(imagevie2,vrect)
+		if vie == 3 :
+			fenetre.blit(imagevie3,vrect)
+		if vie == 4 :
+			fenetre.blit(imagevie4,vrect)
+
 		fenetre.blit(scoretext, (520,10))
 
 		for ast in tab_ast:
