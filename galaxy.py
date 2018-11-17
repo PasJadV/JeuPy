@@ -25,7 +25,7 @@ tab_enn=[]
 imgenn = pygame.image.load("Spaceship_tut.png").convert_alpha()
 son = pygame.mixer.Sound("space walk.ogg")
 songameover=pygame.mixer.Sound("game-over-2.wav")
-sontir=pygame.mixer.Sound("iceball.wav")
+#sontir=pygame.mixer.Sound("iceball.wav")
 
 imagevie1 = pygame.image.load("coeur1.png").convert_alpha()
 imagevie2 = pygame.image.load("coeur2.png").convert_alpha()
@@ -74,11 +74,11 @@ def Pauser() :
 
 
 def joue() :
-	font2=pygame.font.Font('police/plasdrpe.ttf', 30)
+	font2=pygame.font.Font('police/plasdrpe.ttf', 70)
 	joue = font2.render(("GAMEOVER"), True, (255,255,255))
 	fenetre.fill((0,0,0))
 	rect_joue=joue.get_rect()
-	rect_joue.x =200
+	rect_joue.x =150
 	rect_joue.y= 150
 	fenetre.blit(joue, rect_joue)
 	son.stop()
@@ -137,9 +137,6 @@ def corps():
 	tab_tirenn=[]
 	recttirenn = img_tirenn.get_rect()
 
-
-
-
 	rectv = imgvaisseau.get_rect()
 	rectv.x = largeur/2 - rectv.w
 	rectv.y = hauteur - hauteur/4
@@ -183,7 +180,7 @@ def corps():
 			rectenn.x = randrange(0,largeur-rectenn.w)
 			rectenn.y = 0
 			tab_enn.append(rectenn)
-			
+
         #essai pour un niveau 2
 		#if score>3:
 			#if temps%2 ==0 and temps > 200:
@@ -193,7 +190,7 @@ def corps():
 				#tab_enn.append(rectenn)
 
 		#tir ennemis
-		if temps%20 ==0 and temps > 200:
+		if temps%20 == 0 and temps > 250:
 			recttirenn = img_tirenn.get_rect()
 			#recttirenn.x=rectenn.x+16
 			#recttirenn.y=rectenn.h/2
@@ -202,7 +199,7 @@ def corps():
 			tab_tirenn.append(recttirenn)
 		#vitesse tirs vaisseau ennemi
 		for tirenn in tab_tirenn:
-			tirenn.y+=12
+			tirenn.y+=15
 
 		#vitesse vaisseau ennemi
 		for enn in tab_enn:
@@ -254,12 +251,6 @@ def corps():
 				vie=vie-1
 				rectenn.y = hauteur
 
-
-
-		if vie==0:
-			continuer=0
-			gameover()
-			print("vie =", vie)
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
 			rectv.x-=10
@@ -322,9 +313,9 @@ def corps():
 			vie = vie - 1
 
 		if vie==0 :
+			print("vie =", vie)
 			continuer = 0
 			gameover()
-
 
 		fenetre.blit(imageFond, rectFond)
 		fenetre.blit(imgvaisseau, rectv)
