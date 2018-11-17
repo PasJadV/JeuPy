@@ -157,6 +157,7 @@ def corps():
 	vie=4
 	dernier_tir=0
 	joueson=0
+
 	while continuer:
 		framerate.tick(30)
 		print(vie)
@@ -182,20 +183,30 @@ def corps():
 			rectenn.x = randrange(0,largeur-rectenn.w)
 			rectenn.y = 0
 			tab_enn.append(rectenn)
-		#if temps%30 ==0 and temps > 200:
+			
+        #essai pour un niveau 2
+		#if score>3:
+			#if temps%2 ==0 and temps > 200:
+				#rectenn = imgenn.get_rect()
+				#rectenn.x = randrange(0,largeur-rectenn.w)
+				#rectenn.y = 0
+				#tab_enn.append(rectenn)
 
-		if temps%50 ==0 and temps > 200:
+		#tir ennemis
+		if temps%20 ==0 and temps > 200:
 			recttirenn = img_tirenn.get_rect()
-			recttirenn.x=rectenn.x+16
-			recttirenn.y=rectenn.h/2
+			#recttirenn.x=rectenn.x+16
+			#recttirenn.y=rectenn.h/2
+			recttirenn.centerx=rectenn.centerx
+			recttirenn.y=rectenn.bottom
 			tab_tirenn.append(recttirenn)
-
+		#vitesse tirs vaisseau ennemi
 		for tirenn in tab_tirenn:
-			tirenn.y+=6
+			tirenn.y+=12
 
-
+		#vitesse vaisseau ennemi
 		for enn in tab_enn:
-			enn.y +=3
+			enn.y +=6
 			#time = 0
 			#time +=1
 			#enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
@@ -231,7 +242,7 @@ def corps():
 				vie=vie-1
 				r.y = hauteur
 
-		#collision entre les tire ennemis et le vaisseau
+		#collision entre les tirs ennemis et le vaisseau
 		for recttirenn in tab_tirenn:
 			if recttirenn.colliderect(rectv):
 				vie=vie-1
