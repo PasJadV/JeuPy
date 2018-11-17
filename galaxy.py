@@ -15,16 +15,17 @@ imageFond = pygame.image.load("galaxy.jpg").convert()
 imgameov = pygame.image.load("Game.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
-<<<<<<< Updated upstream
-=======
+
 
 tab_tirenn=[]
 img_tirenn= pygame.image.load("tirenn.png").convert_alpha()
->>>>>>> Stashed changes
 tab_ast=[]
 imgastro = pygame.image.load("astro.png").convert_alpha()
 tab_enn=[]
-imgenn = pygame.image.load("ship.png").convert_alpha()
+imgenn = pygame.image.load("Spaceship_tut.png").convert_alpha()
+son = pygame.mixer.Sound("space walk.ogg")
+songameover=pygame.mixer.Sound("game-over-2.wav")
+sontir=pygame.mixer.Sound("iceball.wav")
 
 imagevie1 = pygame.image.load("coeur1.png").convert_alpha()
 imagevie2 = pygame.image.load("coeur2.png").convert_alpha()
@@ -60,6 +61,8 @@ def Pauser2():
 	rect_pauser2.x = 200
 	rect_pauser2.y = 200
 	fenetre.blit(pauser2, rect_pauser2)
+	pygame.mixer.pause()
+
 
 def Pauser() :
 	font3 = pygame.font.Font(None, 32)
@@ -69,6 +72,7 @@ def Pauser() :
 	rect_pauser.y = 250
 	fenetre.blit(pauser, rect_pauser)
 
+
 def joue() :
 	font2=pygame.font.Font('police/plasdrpe.ttf', 30)
 	joue = font2.render(("GAMEOVER"), True, (255,255,255))
@@ -77,6 +81,10 @@ def joue() :
 	rect_joue.x =200
 	rect_joue.y= 150
 	fenetre.blit(joue, rect_joue)
+	son.stop()
+	songameover.play()
+
+
 
 def playagain() :
 	font1=pygame.font.Font('police/plasdrpe.ttf', 30)
@@ -90,6 +98,7 @@ def playagain() :
 	rectplay2.y = hauteur/2+hauteur/8
 	fenetre.blit(playagain, rect_playagain)
 	fenetre.blit(play2, rectplay2)
+
 
 
 def gameover() :
@@ -147,9 +156,15 @@ def corps():
 	ten=0
 	vie=4
 	dernier_tir=0
+	joueson=0
 	while continuer:
 		framerate.tick(30)
 		print(vie)
+		son.play()
+		songameover.stop()
+
+		if joueson==0:
+			pygame.mixer.unpause()
 
 		#print(temps)
 		tab_enn2 = []
@@ -168,23 +183,22 @@ def corps():
 			rectenn.y = 0
 			tab_enn.append(rectenn)
 		#if temps%30 ==0 and temps > 200:
-=======
-		if temps%30 ==0 and temps > 200:
+
+		if temps%50 ==0 and temps > 200:
 			recttirenn = img_tirenn.get_rect()
-			recttirenn.x=rectenn.x+33
+			recttirenn.x=rectenn.x+16
 			recttirenn.y=rectenn.h/2
 			tab_tirenn.append(recttirenn)
 
 		for tirenn in tab_tirenn:
 			tirenn.y+=6
 
->>>>>>> Stashed changes
+
 		for enn in tab_enn:
-			enn.y +=1
+			enn.y +=3
 			#time = 0
 			#time +=1
 			#enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
-<<<<<<< Updated upstream
 			#enn.y +=20*math.sin(2*angle)
 
 		for enn in tab_enn:
@@ -209,13 +223,28 @@ def corps():
 
 		for r in tab_ast:
 			for tir in tab_tir:
-					r.y = hauteur
 				if r.colliderect(tir):
+					r.y = hauteur
 					tir.y = 0
 		for r in tab_ast:
 			if r.colliderect(rectv):
 				vie=vie-1
 				r.y = hauteur
+
+		#collision entre les tire ennemis et le vaisseau
+		for recttirenn in tab_tirenn:
+			if recttirenn.colliderect(rectv):
+				vie=vie-1
+				recttirenn.y = hauteur
+
+		#collision entre vaisseau ennemis et le vaisseau
+		for rectenn in tab_enn:
+			if rectenn.colliderect(rectv):
+				vie=vie-1
+				rectenn.y = hauteur
+
+
+
 		if vie==0:
 			continuer=0
 			gameover()
@@ -238,6 +267,7 @@ def corps():
 			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
 			rectprojectil.y= rectv.y-2
 			tab_tir.append(rectprojectil)
+
 		#for a in tab_tir:
 		#	if a.x>=0 and a.x<=(largeur-rectprojectil.w) and a.y>=0 and a.y<=(hauteur-rectprojectil.h):
 		#		tab_tir2.append(a)
