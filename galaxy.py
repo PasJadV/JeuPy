@@ -275,6 +275,11 @@ def corps():
 			if rectv.colliderect(c):
 				vie=vie+1
 				c.y= hauteur
+		for r in tab_tir:
+			for tir in tab_tirenn:
+				if r.colliderect(tir):
+					tir.y = hauteur
+					r.y = 0
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
