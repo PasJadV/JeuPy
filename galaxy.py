@@ -25,7 +25,7 @@ tab_enn=[]
 imgenn = pygame.image.load("Spaceship_tut.png").convert_alpha()
 son = pygame.mixer.Sound("space walk.ogg")
 songameover=pygame.mixer.Sound("game-over-2.wav")
-#sontir=pygame.mixer.Sound("iceball.wav")
+sontir=pygame.mixer.Sound("iceball.wav")
 
 imagevie1 = pygame.image.load("coeur1.png").convert_alpha()
 imagevie2 = pygame.image.load("coeur2.png").convert_alpha()
@@ -34,6 +34,9 @@ imagevie4 = pygame.image.load("coeur4.png").convert_alpha()
 vrect = imagevie4.get_rect()
 vrect.x = 400
 vrect.y = 10
+
+coin = []
+imagecoin = pygame.image.load("coin1.png").convert_alpha()
 
 font = pygame.font.Font(None, 20)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
@@ -146,6 +149,9 @@ def corps():
 	vitesse = 7
 	framerate= pygame.time.Clock()
 
+	coin = []
+	rectcoin = imagecoin.get_rect()
+
 	continuer=1
 	angle=0
 	temps=0
@@ -166,7 +172,10 @@ def corps():
 
 		#print(temps)
 		tab_enn2 = []
-		tab_ast2=[]
+		tab_ast2 = []
+		coin_net = []
+		tab_tir2=[]
+
 		temps+=1
 		#vague d'astéroide
 		if temps%5 ==0 and temps < 200:
@@ -181,6 +190,12 @@ def corps():
 			rectenn.y = 0
 			tab_enn.append(rectenn)
 
+		#bonus
+		if temps%100==0 and temps>300 and vie!=4:
+			rectcoin = imagecoin.get_rect()
+			rectcoin.x = randrange(0,largeur-rectcoin.w)
+			rectcoin.y = randrange(hauteur/2, hauteur-rectcoin.h)
+			coin.append(rectcoin)
         #essai pour un niveau 2
 		#if score>3:
 			#if temps%2 ==0 and temps > 200:
@@ -229,6 +244,11 @@ def corps():
 				tab_ast2.append(r)
 		tab_ast = tab_ast2
 
+		for c in coin:
+			if c.y < hauteur-c.h:
+				coin_net.append(c)
+		coin = coin_net
+
 		for r in tab_ast:
 			for tir in tab_tir:
 				if r.colliderect(tir):
@@ -250,6 +270,11 @@ def corps():
 			if rectenn.colliderect(rectv):
 				vie=vie-1
 				rectenn.y = hauteur
+		#collision entre le vaisseau et la piece
+		for c in coin:
+			if rectv.colliderect(c):
+				vie=vie+1
+				c.y= hauteur
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
@@ -264,12 +289,12 @@ def corps():
 			continuer=0
 		#tir ennemis
 		if touched [pygame.K_SPACE] and pygame.time.get_ticks() - dernier_tir >= 200:
+
 			dernier_tir=pygame.time.get_ticks()
 			rectprojectil= imgprojectil.get_rect()
 			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
 			rectprojectil.y= rectv.y-2
 			tab_tir.append(rectprojectil)
-
 		#for a in tab_tir:
 		#	if a.x>=0 and a.x<=(largeur-rectprojectil.w) and a.y>=0 and a.y<=(hauteur-rectprojectil.h):
 		#		tab_tir2.append(a)
@@ -277,7 +302,7 @@ def corps():
 		#tab_tir=tab_tir2
 		for tir in tab_tir:
 			tir.y -= vitesse
-		tab_tir2 = []
+
 		for r in tab_tir:
 			if r.y > 0 and r.y<hauteur:
 				tab_tir2.append(r)
@@ -341,6 +366,8 @@ def corps():
 			fenetre.blit(imgprojectil, t)
 		for tiree in tab_tirenn:
 			fenetre.blit(img_tirenn, tiree)
+		for c in coin:
+			fenetre.blit(imagecoin, c)
 		pygame.display.flip()
 
 #----------------------------execution du programme----------------
