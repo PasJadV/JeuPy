@@ -9,9 +9,10 @@ pygame.display.set_icon(icone)
 pygame.display.set_caption("Gwalaxy")
 largeur = 640
 hauteur = 640
-fenetre = pygame.display.set_mode((largeur, hauteur))
+fenetre = pygame.display.set_mode((largeur, hauteur), RESIZABLE)
 #---------------------------Medias divers------------------------
 imageFond = pygame.image.load("galaxy.jpg").convert()
+imgameov = pygame.image.load("Game.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 tab_ast=[]
@@ -63,20 +64,27 @@ def Pauser() :
 	fenetre.blit(pauser, rect_pauser)
 
 def joue() :
-	font2=pygame.font.Font(None, 42)
-	joue = font2.render(("GAMEOVER"), True, (0,0,0))
+	font2=pygame.font.Font('police/plasdrpe.ttf', 30)
+	joue = font2.render(("GAMEOVER"), True, (255,255,255))
+	fenetre.fill((0,0,0))
 	rect_joue=joue.get_rect()
 	rect_joue.x =200
 	rect_joue.y= 150
 	fenetre.blit(joue, rect_joue)
 
 def playagain() :
-	font1=pygame.font.Font(None, 30)
-	playagain = font1.render(("Appuyer sur R pour rejouer ou escape pour quitter"), True, (255,255,255))
+	font1=pygame.font.Font('police/plasdrpe.ttf', 30)
+	playagain = font1.render(("Appuyer sur R pour rejouer"), True, (255,255,255))
+	play2 = font1.render((" ou escape pour quitter"), True, (255,255,255))
 	rect_playagain = playagain.get_rect()
-	rect_playagain.x = 180
-	rect_playagain.y = 200
+	rect_playagain.x = largeur/6
+	rect_playagain.y = hauteur/2
+	rectplay2 = playagain.get_rect()
+	rectplay2.x = largeur/8+largeur/10
+	rectplay2.y = hauteur/2+hauteur/8
 	fenetre.blit(playagain, rect_playagain)
+	fenetre.blit(play2, rectplay2)
+
 
 def gameover() :
 	joue()
@@ -126,7 +134,7 @@ def corps():
 	temps=0
 	score=0
 	ten=0
-	tab_vie=[]
+	vie=4
 
 	while continuer:
 		framerate.tick(30)
@@ -184,6 +192,14 @@ def corps():
 				if r.colliderect(tir):
 					r.y = hauteur
 					tir.y = 0
+		for r in tab_ast:
+			if r.colliderect(rectv):
+				r.y = hauteur
+				vie=vie-1
+		if vie==0:
+			continuer=0
+			gameover()
+			print("vie =", vie)
 
 		touched = pygame.key.get_pressed()
 		if touched [pygame.K_LEFT] and rectv.x>0:
