@@ -135,7 +135,7 @@ def corps():
 	score=0
 	ten=0
 	vie=4
-
+	dernier_tir=0
 	while continuer:
 		framerate.tick(30)
 		print(vie)
@@ -170,7 +170,6 @@ def corps():
 			if enn.y < hauteur:
 				tab_enn2.append(enn)
 		tab_enn=tab_enn2
-
 
 		for enn in tab_enn:
 			for tir in tab_tir:
@@ -213,7 +212,8 @@ def corps():
 		if touched [pygame.K_ESCAPE] :
 			continuer=0
 		#tir ennemis
-		if touched [pygame.K_SPACE]:
+		if touched [pygame.K_SPACE] and pygame.time.get_ticks() - dernier_tir >= 200:
+			dernier_tir=pygame.time.get_ticks()
 			rectprojectil= imgprojectil.get_rect()
 			rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
 			rectprojectil.y= rectv.y-2
