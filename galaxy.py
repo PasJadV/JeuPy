@@ -334,14 +334,6 @@ def corps():
 		#		continuer = 0
 		#		gameover()
 
-		if pygame.Rect.colliderect(rectv, rectenn) :
-			vie = vie - 1
-
-		if vie==0 :
-			print("vie =", vie)
-			continuer = 0
-			gameover()
-
 		fenetre.blit(imageFond, rectFond)
 		fenetre.blit(imgvaisseau, rectv)
 		fenetre.blit(imageText, rectText)
@@ -368,6 +360,12 @@ def corps():
 			fenetre.blit(img_tirenn, tiree)
 		for c in coin:
 			fenetre.blit(imagecoin, c)
+		if pygame.Rect.colliderect(rectv, rectenn) :
+			vie = vie - 1
+		if vie==0 :
+			print("vie =", vie)
+			continuer = 0
+			gameover()
 		pygame.display.flip()
 
 #----------------------------execution du programme----------------
