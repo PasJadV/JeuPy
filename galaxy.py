@@ -12,9 +12,11 @@ hauteur = 640
 fenetre = pygame.display.set_mode((largeur, hauteur), RESIZABLE)
 #---------------------------Medias divers------------------------
 imageFond = pygame.image.load("galaxy.jpg").convert()
+#imageFond2 = pygame.image.load("galaxy.jpg").convert()
 imgameov = pygame.image.load("Game.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
+imgaccueil= pygame.image.load("accueil.jpg").convert_alpha()
 
 
 tab_tirenn=[]
@@ -59,6 +61,7 @@ rectText3.y = 50
 score_font = pygame.font.Font(None, 22)
 
 framerate= pygame.time.Clock()
+#lol=continuer
 
 def Pauser2():
     font4 = pygame.font.Font(None, 42)
@@ -120,6 +123,7 @@ def playagain_or_quit() :
     toucher = pygame.key.get_pressed()
     if toucher [K_r]:
         return corps()
+
     if toucher [K_ESCAPE]:
         quit()
 
@@ -128,13 +132,19 @@ def playagain_or_quit() :
             pygame.quit()
             quit()
 
+
 #--------------------------Corps du jeu--------------------------
+
+
 def corps():
 
     rectFond = imageFond.get_rect()
     rectFond.x = -320
     rectFond.y = 0
 
+    #rectFond2 = imageFond2.get_rect()
+    #rectFond2.x = -320
+    #rectFond2.y = -hauteur
 
     tab_ast = []
     rectast = imgastro.get_rect()
@@ -157,7 +167,7 @@ def corps():
     star = []
     rectstar = imgstar.get_rect()
 
-    continuer=1
+
     angle=0
     temps=0
     score=0
@@ -166,11 +176,47 @@ def corps():
     dernier_tir=0
     joueson=0
     vitessevaisseau=10
-    while continuer:
+    continuer=0
+
+    while continuer==0:
+        rectacc = imgaccueil.get_rect()
+        rectacc.x = -650
+        rectacc.y = -300
+        font4 = pygame.font.Font(None, 52)
+        menu = font4.render("<Space> pour commencer le jeu", True, (0, 0, 0))
+        rectmenu = menu.get_rect()
+        rectmenu.x = 10
+        rectmenu.y = 50
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                 if event.key == pygame.K_SPACE:
+                         continuer=1
+        fenetre.blit(imgaccueil, rectacc)
+        fenetre.blit(menu, rectmenu)
+        for event in pygame.event.get() :
+                if event.type == QUIT:
+                    sys.exit
+                    quit()
+        touche = pygame.key.get_pressed()
+        if touche [pygame.K_ESCAPE] :
+            quit()
+        pygame.display.flip()
+    while continuer==1:
         framerate.tick(30)
         print(vie)
         son.play()
         songameover.stop()
+
+        #vitesse fond
+        #rectFond.y += 3
+        #rectFond2.y += 3
+
+        #Déplacement fond
+        #if rectFond.y >= hauteur:
+        #    rectFond.y = -hauteur
+        #if rectFond2.y >= hauteur:
+        #    rectFond2.y = -hauteur
 
         if joueson==0:
             pygame.mixer.unpause()
@@ -189,7 +235,7 @@ def corps():
             rectast.y = 0
             tab_ast.append(rectast)
         #vague ennemis
-        if temps%50 ==0 and temps > 200:
+        if temps%25 ==0 and temps > 200:
             rectenn = imgenn.get_rect()
             rectenn.x = randrange(0,largeur-rectenn.w)
             rectenn.y = 0
@@ -202,7 +248,7 @@ def corps():
             rectcoin.y = randrange(hauteur/2, hauteur-rectcoin.h)
             coin.append(rectcoin)
         #bonus vitesse
-        if temps%200==0 and  temps>350:
+        if temps%400==0 and  temps>350:
             rectstar= imgstar.get_rect()
             rectstar.x = randrange(0,largeur-rectcoin.w)
             rectstar.y= 0
@@ -363,6 +409,7 @@ def corps():
         #        gameover()
 
         fenetre.blit(imageFond, rectFond)
+        #fenetre.blit(imageFond2, rectFond2)
         fenetre.blit(imgvaisseau, rectv)
         fenetre.blit(imageText, rectText)
         fenetre.blit(imageText2, rectText2)
