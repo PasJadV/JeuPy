@@ -12,7 +12,6 @@ hauteur = 640
 fenetre = pygame.display.set_mode((largeur, hauteur), RESIZABLE)
 #---------------------------Medias divers------------------------
 imageFond = pygame.image.load("galaxy.jpg").convert()
-#imageFond2 = pygame.image.load("galaxy.jpg").convert()
 imgameov = pygame.image.load("Game.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
@@ -33,6 +32,8 @@ imagevie1 = pygame.image.load("coeur1.png").convert_alpha()
 imagevie2 = pygame.image.load("coeur2.png").convert_alpha()
 imagevie3 = pygame.image.load("coeur3.png").convert_alpha()
 imagevie4 = pygame.image.load("coeur4.png").convert_alpha()
+imagevie5 = pygame.image.load("coeur5.png").convert_alpha()
+
 vrect = imagevie4.get_rect()
 vrect.x = 400
 vrect.y = 10
@@ -59,9 +60,9 @@ rectText3 = imageText2.get_rect()
 rectText3.x = 10
 rectText3.y = 50
 score_font = pygame.font.Font(None, 22)
+nbv = pygame.font.Font(None, 30)
 
 framerate= pygame.time.Clock()
-#lol=continuer
 
 def Pauser2():
     font4 = pygame.font.Font(None, 42)
@@ -142,10 +143,6 @@ def corps():
     rectFond.x = -320
     rectFond.y = 0
 
-    #rectFond2 = imageFond2.get_rect()
-    #rectFond2.x = -320
-    #rectFond2.y = -hauteur
-
     tab_ast = []
     rectast = imgastro.get_rect()
     tab_enn = []
@@ -167,7 +164,6 @@ def corps():
     star = []
     rectstar = imgstar.get_rect()
 
-
     angle=0
     temps=0
     score=0
@@ -188,17 +184,16 @@ def corps():
         rectmenu.x = 10
         rectmenu.y = 50
 
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                 if event.key == pygame.K_SPACE:
-                         continuer=1
+        touche = pygame.key.get_pressed()
+        if touche [pygame.K_SPACE]:
+                continuer=1
         fenetre.blit(imgaccueil, rectacc)
         fenetre.blit(menu, rectmenu)
         for event in pygame.event.get() :
                 if event.type == QUIT:
                     sys.exit
                     quit()
-        touche = pygame.key.get_pressed()
+
         if touche [pygame.K_ESCAPE] :
             quit()
         pygame.display.flip()
@@ -382,6 +377,7 @@ def corps():
                 tab_tir2.append(r)
         tab_tir=tab_tir2
         #print("nb_tir=", str(len(tab_ast)))
+        nbvie = nbv.render(("x "+ str(vie)), True, (255, 255, 255))
         scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
         for event in pygame.event.get() :
             if event.type == QUIT:
@@ -422,6 +418,10 @@ def corps():
             fenetre.blit(imagevie3,vrect)
         if vie == 4 :
             fenetre.blit(imagevie4,vrect)
+        if vie > 4 :
+            fenetre.blit(imagevie5,vrect)
+            fenetre.blit(nbvie, (450, 10))
+
 
         fenetre.blit(scoretext, (520,10))
 
