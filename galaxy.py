@@ -17,7 +17,6 @@ imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 imgaccueil= pygame.image.load("accueil.jpg").convert_alpha()
 
-
 tab_tirenn=[]
 img_tirenn= pygame.image.load("tirenn.png").convert_alpha()
 tab_ast=[]
@@ -42,7 +41,6 @@ coin = []
 imagecoin = pygame.image.load("coin1.png").convert_alpha()
 star = []
 imgstar = pygame.image.load("sss.png").convert_alpha()
-
 
 font = pygame.font.Font(None, 20)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
@@ -73,7 +71,6 @@ def Pauser2():
     fenetre.blit(pauser2, rect_pauser2)
     pygame.mixer.pause()
 
-
 def Pauser() :
     font3 = pygame.font.Font(None, 32)
     pauser = font3.render("Appuyez sur <Entrer> pour continuer", True, (0, 0, 0))
@@ -81,7 +78,6 @@ def Pauser() :
     rect_pauser.x = 120
     rect_pauser.y = 250
     fenetre.blit(pauser, rect_pauser)
-
 
 def joue() :
     font2=pygame.font.Font('police/plasdrpe.ttf', 70)
@@ -93,8 +89,6 @@ def joue() :
     fenetre.blit(joue, rect_joue)
     son.stop()
     songameover.play()
-
-
 
 def playagain() :
     font1=pygame.font.Font('police/plasdrpe.ttf', 30)
@@ -132,8 +126,6 @@ def playagain_or_quit() :
         if event.type == QUIT and event.key == [K_ESCAPE] :
             pygame.quit()
             quit()
-
-
 #--------------------------Corps du jeu--------------------------
 
 
@@ -203,20 +195,9 @@ def corps():
         son.play()
         songameover.stop()
 
-        #vitesse fond
-        #rectFond.y += 3
-        #rectFond2.y += 3
-
-        #Déplacement fond
-        #if rectFond.y >= hauteur:
-        #    rectFond.y = -hauteur
-        #if rectFond2.y >= hauteur:
-        #    rectFond2.y = -hauteur
-
         if joueson==0:
             pygame.mixer.unpause()
 
-        #print(temps)
         tab_enn2 = []
         tab_ast2 = []
         coin_net = []
@@ -248,13 +229,6 @@ def corps():
             rectstar.x = randrange(0,largeur-rectcoin.w)
             rectstar.y= 0
             star.append(rectstar)
-        #essai pour un niveau 2
-        #if score>3:
-            #if temps%2 ==0 and temps > 200:
-                #rectenn = imgenn.get_rect()
-                #rectenn.x = randrange(0,largeur-rectenn.w)
-                #rectenn.y = 0
-                #tab_enn.append(rectenn)
 
         #tir ennemis
         if temps%20 == 0 and temps > 250:
@@ -270,10 +244,6 @@ def corps():
         #vitesse vaisseau ennemi
         for enn in tab_enn:
             enn.y +=6
-            #time = 0
-            #time +=1
-            #enn.x =  math.cos (math.pi / 24 * time) + rectenn.x
-            #enn.y +=20*math.sin(2*angle)
 
         for enn in tab_enn:
             if enn.y < hauteur:
@@ -312,13 +282,12 @@ def corps():
                 vie=vie-1
                 r.y = hauteur
 
-        #collision entre les tirs ennemis et le vaisseau
+#collision entre les tirs ennemis et le vaisseau
         for recttirenn in tab_tirenn:
             if recttirenn.colliderect(rectv):
                 vie=vie-1
                 vitessevaisseau=10
                 recttirenn.y = hauteur
-
 
 #collision entre vaisseau ennemis et le vaisseau
         for rectenn in tab_enn:
@@ -331,18 +300,18 @@ def corps():
             if rectv.colliderect(c):
                 vie=vie+1
                 c.y= hauteur
-        #collision entre le vaisseau et l'etoile
+#collision entre le vaisseau et l'etoile
         for v in star:
             if rectv.colliderect(v):
                 vitessevaisseau=20
                 v.y= hauteur
 
 
-            for r in tab_tir:
-                for tir in tab_tirenn:
-                    if r.colliderect(tir):
-                        tir.y = hauteur
-                        r.y = 0
+        for r in tab_tir:
+            for tir in tab_tirenn:
+                if r.colliderect(tir):
+                    tir.y = hauteur
+                    r.y = 0
 
         touched = pygame.key.get_pressed()
         if touched [pygame.K_LEFT] and rectv.x>0:
@@ -355,7 +324,7 @@ def corps():
             rectv.y+=vitessevaisseau
         if touched [pygame.K_ESCAPE] :
             continuer=0
-        #tir ennemis
+#tir ennemis
         if touched [pygame.K_SPACE] and pygame.time.get_ticks() - dernier_tir >= 200:
 
             dernier_tir=pygame.time.get_ticks()
@@ -364,11 +333,6 @@ def corps():
             rectprojectil.y= rectv.y-2
             tab_tir.append(rectprojectil)
 
-        #for a in tab_tir:
-        #    if a.x>=0 and a.x<=(largeur-rectprojectil.w) and a.y>=0 and a.y<=(hauteur-rectprojectil.h):
-        #        tab_tir2.append(a)
-        #tab_tir=[]
-        #tab_tir=tab_tir2
         for tir in tab_tir:
             tir.y -= vitesse
 
@@ -376,7 +340,7 @@ def corps():
             if r.y > 0 and r.y<hauteur:
                 tab_tir2.append(r)
         tab_tir=tab_tir2
-        #print("nb_tir=", str(len(tab_ast)))
+
         nbvie = nbv.render(("x "+ str(vie)), True, (255, 255, 255))
         scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
         for event in pygame.event.get() :
@@ -399,13 +363,9 @@ def corps():
                         Pauser2()
                         Pauser()
                         pygame.display.flip()
-        #for t in tab_enn:
-        #    if t.colliderect(rectv) :
-        #        continuer = 0
-        #        gameover()
 
         fenetre.blit(imageFond, rectFond)
-        #fenetre.blit(imageFond2, rectFond2)
+
         fenetre.blit(imgvaisseau, rectv)
         fenetre.blit(imageText, rectText)
         fenetre.blit(imageText2, rectText2)
@@ -421,7 +381,6 @@ def corps():
         if vie > 4 :
             fenetre.blit(imagevie5,vrect)
             fenetre.blit(nbvie, (450, 10))
-
 
         fenetre.blit(scoretext, (520,10))
 
@@ -439,9 +398,8 @@ def corps():
             fenetre.blit(imgstar, ve)
         if pygame.Rect.colliderect(rectv, rectenn) :
             vie = vie - 1
-        if vie==0 :
+        if vie <= 0 :
             print("vie =", vie)
-            continuer = 0
             gameover()
         pygame.display.flip()
 
