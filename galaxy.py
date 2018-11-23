@@ -115,7 +115,7 @@ def gameover(score) :
     joue()
     playagain()
     score_font=pygame.font.Font('police/plasdrpe.ttf', 30)
-    scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
+    scoretext = score_font.render(("score: "+ str(score)), True, (255, 180, 70))
     fenetre.blit(scoretext, (260,260))
     pygame.display.flip()
     while playagain_or_quit()== None:
