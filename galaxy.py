@@ -127,18 +127,13 @@ def playagain_or_quit() :
     toucher = pygame.key.get_pressed()
     if toucher [K_r]:
         return corps()
-
     if toucher [K_ESCAPE]:
         quit()
-
     for event in pygame.event.get() :
         if event.type == QUIT and toucher [K_ESCAPE] :
             pygame.quit()
             quit()
-
-
 #--------------------------Corps du jeu--------------------------
-
 
 def corps():
 
@@ -167,7 +162,6 @@ def corps():
     star = []
     rectstar = imgstar.get_rect()
 
-
     angle=0
     temps=0
     score=0
@@ -182,8 +176,8 @@ def corps():
         rectacc = imgaccueil.get_rect()
         rectacc.x = -350
         rectacc.y = -100
-        font4 = pygame.font.Font(None, 52)
-        menu = font4.render("<Space> pour commencer le jeu", True, (0, 0, 0))
+        font4 = pygame.font.Font(None, 50)
+        menu = font4.render("<Space> pour commencer le jeu", True, (250, 170, 220))
         rectmenu = menu.get_rect()
         rectmenu.x = 40
         rectmenu.y = hauteur -100
@@ -209,49 +203,45 @@ def corps():
         if joueson==0:
             pygame.mixer.unpause()
 
-        #print(temps)
         tab_enn2 = []
         tab_ast2 = []
         coin_net = []
         tab_tir2=[]
-
         temps+=1
-        #vague d'astéroide
+#vague d'astéroide
         if temps%5 ==0 and temps < 200:
             rectast = imgastro.get_rect()
             rectast.x = randrange(0,largeur-rectast.w)
             rectast.y = 0
             tab_ast.append(rectast)
-        #vague ennemis
+#vague ennemis
         if temps%25 ==0 and temps > 200 :
             rectenn = imgenn.get_rect()
             rectenn.x = randrange(0,largeur-rectenn.w)
             rectenn.y = 0
             tab_enn.append(rectenn)
-
-        #bonus vie
+#bonus vie
         if temps%100==0 and temps>300 and vie!=4:
             rectcoin = imagecoin.get_rect()
             rectcoin.x = randrange(0,largeur-rectcoin.w)
             rectcoin.y = randrange(hauteur/2, hauteur-rectcoin.h)
             coin.append(rectcoin)
-        #bonus vitesse
+#bonus vitesse
         if temps%400==0 and  temps>350:
             rectstar= imgstar.get_rect()
             rectstar.x = randrange(0,largeur-rectcoin.w)
             rectstar.y= 0
             star.append(rectstar)
-        #tir ennemis
+#tir ennemis
         if temps%20 == 0 and temps > 250:
             recttirenn = img_tirenn.get_rect()
             recttirenn.centerx=rectenn.centerx
             recttirenn.y=rectenn.bottom
             tab_tirenn.append(recttirenn)
-        #vitesse tirs vaisseau ennemi
+#vitesse tirs vaisseau ennemi
         for tirenn in tab_tirenn:
             tirenn.y+=15
-
-        #vitesse vaisseau ennemi
+#vitesse vaisseau ennemi
         for enn in tab_enn:
             enn.y +=6
 
@@ -291,7 +281,7 @@ def corps():
                 vie=vie-1
                 r.y = hauteur
 
-        #collision entre les tirs ennemis et le vaisseau
+#collision entre les tirs ennemis et le vaisseau
         for recttirenn in tab_tirenn:
             if recttirenn.colliderect(rectv):
                 vie=vie-1
@@ -309,18 +299,18 @@ def corps():
             if rectv.colliderect(c):
                 vie=vie+1
                 c.y= hauteur
-        #collision entre le vaisseau et l'etoile
+#collision entre le vaisseau et l'etoile
         for v in star:
             if rectv.colliderect(v):
                 vitessevaisseau=20
                 v.y= hauteur
 
 
-            for r in tab_tir:
-                for tir in tab_tirenn:
-                    if r.colliderect(tir):
-                        tir.y = hauteur
-                        r.y = 0
+        for r in tab_tir:
+            for tir in tab_tirenn:
+                if r.colliderect(tir):
+                    tir.y = hauteur
+                    r.y = 0
 
         touched = pygame.key.get_pressed()
         if touched [pygame.K_LEFT] and rectv.x>0:
@@ -333,9 +323,8 @@ def corps():
             rectv.y+=vitessevaisseau
         if touched [pygame.K_ESCAPE] :
             continuer=0
-        #tir ennemis
+#tir ennemis
         if touched [pygame.K_SPACE] and pygame.time.get_ticks() - dernier_tir >= 200:
-
             dernier_tir=pygame.time.get_ticks()
             rectprojectil= imgprojectil.get_rect()
             rectprojectil.x= rectv.x+(rectv.w/2)-(rectprojectil.w/2)
@@ -373,7 +362,6 @@ def corps():
                         pygame.display.flip()
 
         fenetre.blit(imageFond, rectFond)
-
         fenetre.blit(imgvaisseau, rectv)
         fenetre.blit(imageText, rectText)
         fenetre.blit(imageText2, rectText2)
