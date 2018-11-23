@@ -81,10 +81,10 @@ def Pauser() :
 
 def joue() :
     font2=pygame.font.Font('police/plasdrpe.ttf', 70)
-    joue = font2.render(("GAMEOVER"), True, (255,255,255))
+    joue = font2.render(("Ou ped"), True, (255,255,255))
     fenetre.fill((0,0,0))
     rect_joue=joue.get_rect()
-    rect_joue.x =150
+    rect_joue.x =170
     rect_joue.y= 150
     fenetre.blit(joue, rect_joue)
     son.stop()
@@ -123,7 +123,7 @@ def playagain_or_quit() :
         quit()
 
     for event in pygame.event.get() :
-        if event.type == QUIT and event.key == [K_ESCAPE] :
+        if event.type == QUIT and toucher [K_ESCAPE] :
             pygame.quit()
             quit()
 #--------------------------Corps du jeu--------------------------
@@ -168,13 +168,13 @@ def corps():
 
     while continuer==0:
         rectacc = imgaccueil.get_rect()
-        rectacc.x = -650
-        rectacc.y = -300
+        rectacc.x = -350
+        rectacc.y = -100
         font4 = pygame.font.Font(None, 52)
-        menu = font4.render("<Space> pour commencer le jeu", True, (0, 0, 0))
+        menu = font4.render("<Space> pour commencer le jeu", True, (250, 170, 220))
         rectmenu = menu.get_rect()
-        rectmenu.x = 10
-        rectmenu.y = 50
+        rectmenu.x = 40
+        rectmenu.y = hauteur -100
 
         touche = pygame.key.get_pressed()
         if touche [pygame.K_SPACE]:
