@@ -17,7 +17,6 @@ imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 imgaccueil= pygame.image.load("accueil.jpg").convert_alpha()
 
-
 tab_tirenn=[]
 img_tirenn= pygame.image.load("tirenn.png").convert_alpha()
 tab_ast=[]
@@ -26,7 +25,6 @@ tab_enn=[]
 imgenn = pygame.image.load("Spaceship_tut.png").convert_alpha()
 son = pygame.mixer.Sound("space walk.ogg")
 songameover=pygame.mixer.Sound("game-over-2.wav")
-#sontir=pygame.mixer.Sound("iceball.wav")
 
 imagevie1 = pygame.image.load("coeur1.png").convert_alpha()
 imagevie2 = pygame.image.load("coeur2.png").convert_alpha()
