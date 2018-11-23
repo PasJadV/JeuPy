@@ -17,6 +17,7 @@ imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 imgaccueil= pygame.image.load("accueil.jpg").convert_alpha()
 
+
 tab_tirenn=[]
 img_tirenn= pygame.image.load("tirenn.png").convert_alpha()
 tab_ast=[]
@@ -25,7 +26,7 @@ tab_enn=[]
 imgenn = pygame.image.load("Spaceship_tut.png").convert_alpha()
 son = pygame.mixer.Sound("space walk.ogg")
 songameover=pygame.mixer.Sound("game-over-2.wav")
-sontir=pygame.mixer.Sound("iceball.wav")
+#sontir=pygame.mixer.Sound("iceball.wav")
 
 imagevie1 = pygame.image.load("coeur1.png").convert_alpha()
 imagevie2 = pygame.image.load("coeur2.png").convert_alpha()
@@ -41,6 +42,7 @@ coin = []
 imagecoin = pygame.image.load("coin1.png").convert_alpha()
 star = []
 imgstar = pygame.image.load("sss.png").convert_alpha()
+
 
 font = pygame.font.Font(None, 20)
 imageText = font.render("<Escape> pour quitter", True, (255, 255, 255))
@@ -71,6 +73,7 @@ def Pauser2():
     fenetre.blit(pauser2, rect_pauser2)
     pygame.mixer.pause()
 
+
 def Pauser() :
     font3 = pygame.font.Font(None, 32)
     pauser = font3.render("Appuyez sur <Entrer> pour continuer", True, (0, 0, 0))
@@ -78,6 +81,7 @@ def Pauser() :
     rect_pauser.x = 120
     rect_pauser.y = 250
     fenetre.blit(pauser, rect_pauser)
+
 
 def joue() :
     font2=pygame.font.Font('police/plasdrpe.ttf', 70)
@@ -89,6 +93,8 @@ def joue() :
     fenetre.blit(joue, rect_joue)
     son.stop()
     songameover.play()
+
+
 
 def playagain() :
     font1=pygame.font.Font('police/plasdrpe.ttf', 30)
@@ -105,9 +111,12 @@ def playagain() :
 
 
 
-def gameover() :
+def gameover(score) :
     joue()
     playagain()
+    score_font=pygame.font.Font('police/plasdrpe.ttf', 30)
+    scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
+    fenetre.blit(scoretext, (260,260))
     pygame.display.flip()
     while playagain_or_quit()== None:
         framerate.tick()
@@ -126,6 +135,8 @@ def playagain_or_quit() :
         if event.type == QUIT and toucher [K_ESCAPE] :
             pygame.quit()
             quit()
+
+
 #--------------------------Corps du jeu--------------------------
 
 
@@ -156,6 +167,7 @@ def corps():
     star = []
     rectstar = imgstar.get_rect()
 
+
     angle=0
     temps=0
     score=0
@@ -171,21 +183,20 @@ def corps():
         rectacc.x = -350
         rectacc.y = -100
         font4 = pygame.font.Font(None, 52)
-        menu = font4.render("<Space> pour commencer le jeu", True, (250, 170, 220))
+        menu = font4.render("<Space> pour commencer le jeu", True, (0, 0, 0))
         rectmenu = menu.get_rect()
         rectmenu.x = 40
         rectmenu.y = hauteur -100
-
+        songameover.stop()
         touche = pygame.key.get_pressed()
         if touche [pygame.K_SPACE]:
-                continuer=1
+            continuer=1
         fenetre.blit(imgaccueil, rectacc)
         fenetre.blit(menu, rectmenu)
         for event in pygame.event.get() :
                 if event.type == QUIT:
                     sys.exit
                     quit()
-
         if touche [pygame.K_ESCAPE] :
             quit()
         pygame.display.flip()
@@ -198,6 +209,7 @@ def corps():
         if joueson==0:
             pygame.mixer.unpause()
 
+        #print(temps)
         tab_enn2 = []
         tab_ast2 = []
         coin_net = []
@@ -211,7 +223,7 @@ def corps():
             rectast.y = 0
             tab_ast.append(rectast)
         #vague ennemis
-        if temps%25 ==0 and temps > 200:
+        if temps%25 ==0 and temps > 200 :
             rectenn = imgenn.get_rect()
             rectenn.x = randrange(0,largeur-rectenn.w)
             rectenn.y = 0
@@ -229,14 +241,12 @@ def corps():
             rectstar.x = randrange(0,largeur-rectcoin.w)
             rectstar.y= 0
             star.append(rectstar)
-
         #tir ennemis
         if temps%20 == 0 and temps > 250:
             recttirenn = img_tirenn.get_rect()
             recttirenn.centerx=rectenn.centerx
             recttirenn.y=rectenn.bottom
             tab_tirenn.append(recttirenn)
-
         #vitesse tirs vaisseau ennemi
         for tirenn in tab_tirenn:
             tirenn.y+=15
@@ -256,7 +266,6 @@ def corps():
                     enn.y = hauteur
                     tir.y = 0
                     score = score+1
-
         for ast in tab_ast:
             ast.y += 5
         for starr in star:
@@ -282,7 +291,7 @@ def corps():
                 vie=vie-1
                 r.y = hauteur
 
-#collision entre les tirs ennemis et le vaisseau
+        #collision entre les tirs ennemis et le vaisseau
         for recttirenn in tab_tirenn:
             if recttirenn.colliderect(rectv):
                 vie=vie-1
@@ -300,18 +309,18 @@ def corps():
             if rectv.colliderect(c):
                 vie=vie+1
                 c.y= hauteur
-#collision entre le vaisseau et l'etoile
+        #collision entre le vaisseau et l'etoile
         for v in star:
             if rectv.colliderect(v):
                 vitessevaisseau=20
                 v.y= hauteur
 
 
-        for r in tab_tir:
-            for tir in tab_tirenn:
-                if r.colliderect(tir):
-                    tir.y = hauteur
-                    r.y = 0
+            for r in tab_tir:
+                for tir in tab_tirenn:
+                    if r.colliderect(tir):
+                        tir.y = hauteur
+                        r.y = 0
 
         touched = pygame.key.get_pressed()
         if touched [pygame.K_LEFT] and rectv.x>0:
@@ -324,7 +333,7 @@ def corps():
             rectv.y+=vitessevaisseau
         if touched [pygame.K_ESCAPE] :
             continuer=0
-#tir ennemis
+        #tir ennemis
         if touched [pygame.K_SPACE] and pygame.time.get_ticks() - dernier_tir >= 200:
 
             dernier_tir=pygame.time.get_ticks()
@@ -340,7 +349,6 @@ def corps():
             if r.y > 0 and r.y<hauteur:
                 tab_tir2.append(r)
         tab_tir=tab_tir2
-
         nbvie = nbv.render(("x "+ str(vie)), True, (255, 255, 255))
         scoretext = score_font.render(("score: "+ str(score)), True, (255, 255, 255))
         for event in pygame.event.get() :
@@ -400,8 +408,9 @@ def corps():
             vie = vie - 1
         if vie <= 0 :
             print("vie =", vie)
-            gameover()
+            gameover(score)
         pygame.display.flip()
+
 
 #----------------------------execution du programme----------------
 corps()
