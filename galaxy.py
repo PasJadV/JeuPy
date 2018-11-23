@@ -16,7 +16,7 @@ imgameov = pygame.image.load("Game.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 imgaccueil= pygame.image.load("accueil.jpg").convert_alpha()
-
+imglose = pygame.image.load("photo.png").convert_alpha()
 tab_tirenn=[]
 img_tirenn= pygame.image.load("tirenn.png").convert_alpha()
 tab_ast=[]
@@ -63,23 +63,21 @@ nbv = pygame.font.Font(None, 30)
 framerate= pygame.time.Clock()
 
 def Pauser2():
-    font4 = pygame.font.Font(None, 42)
-    pauser2 = font4.render("Jeu en Pause", True, (0, 0, 0))
+    font4 = pygame.font.Font(None, 52)
+    pauser2 = font4.render("Jeu en Pause", True, (255, 255, 255))
     rect_pauser2 = pauser2.get_rect()
     rect_pauser2.x = 200
-    rect_pauser2.y = 200
+    rect_pauser2.y = hauteur/2-rect_pauser2.h
     fenetre.blit(pauser2, rect_pauser2)
     pygame.mixer.pause()
 
-
 def Pauser() :
     font3 = pygame.font.Font(None, 32)
-    pauser = font3.render("Appuyez sur <Entrer> pour continuer", True, (0, 0, 0))
+    pauser = font3.render("Appuyez sur <Entrer> pour continuer", True, (255, 255, 255))
     rect_pauser = pauser.get_rect()
     rect_pauser.x = 120
     rect_pauser.y = 250
     fenetre.blit(pauser, rect_pauser)
-
 
 def joue() :
     font2=pygame.font.Font('police/plasdrpe.ttf', 70)
@@ -92,12 +90,13 @@ def joue() :
     son.stop()
     songameover.play()
 
-
-
 def playagain() :
     font1=pygame.font.Font('police/plasdrpe.ttf', 30)
     playagain = font1.render(("Appuyer sur R pour rejouer"), True, (255,255,255))
     play2 = font1.render((" ou escape pour quitter"), True, (255,255,255))
+    rectlose = imglose.get_rect()
+    rectlose.x = 30
+    rectlose.y = 20
     rect_playagain = playagain.get_rect()
     rect_playagain.x = largeur/6
     rect_playagain.y = hauteur/2
@@ -106,8 +105,7 @@ def playagain() :
     rectplay2.y = hauteur/2+hauteur/8
     fenetre.blit(playagain, rect_playagain)
     fenetre.blit(play2, rectplay2)
-
-
+    fenetre.blit(imglose, rectlose)
 
 def gameover(score) :
     joue()
@@ -194,7 +192,7 @@ def corps():
         pygame.display.flip()
     while continuer==1:
         framerate.tick(30)
-        print(vie)
+        #print(vie)
         son.play()
         songameover.stop()
 
@@ -213,13 +211,13 @@ def corps():
             rectast.y = 0
             tab_ast.append(rectast)
 #vague ennemis
-        if temps%25 ==0 and temps > 200 :
+        if temps%50 ==0 and temps > 200 :
             rectenn = imgenn.get_rect()
             rectenn.x = randrange(0,largeur-rectenn.w)
             rectenn.y = 0
             tab_enn.append(rectenn)
 #bonus vie
-        if temps%100==0 and temps>300 and vie!=4:
+        if temps%100==0 and temps>300 and vie<=10:
             rectcoin = imagecoin.get_rect()
             rectcoin.x = randrange(0,largeur-rectcoin.w)
             rectcoin.y = randrange(hauteur/2, hauteur-rectcoin.h)
@@ -232,10 +230,11 @@ def corps():
             star.append(rectstar)
 #tir ennemis
         if temps%20 == 0 and temps > 250:
-            recttirenn = img_tirenn.get_rect()
-            recttirenn.centerx=rectenn.centerx
-            recttirenn.y=rectenn.bottom
-            tab_tirenn.append(recttirenn)
+            for enn in tab_enn:
+                recttirenn = img_tirenn.get_rect()
+                recttirenn.centerx=enn.centerx
+                recttirenn.y=enn.bottom
+                tab_tirenn.append(recttirenn)
 #vitesse tirs vaisseau ennemi
         for tirenn in tab_tirenn:
             tirenn.y+=15
@@ -244,9 +243,13 @@ def corps():
             enn.y +=6
 
         for enn in tab_enn:
+            if enn.y>hauteur:
+                vie = vie - 1
+
+        for enn in tab_enn:
             if enn.y < hauteur:
                 tab_enn2.append(enn)
-        tab_enn=tab_enn2
+        tab_enn = tab_enn2
 
         for enn in tab_enn:
             for tir in tab_tir:
@@ -258,11 +261,6 @@ def corps():
             ast.y += 5
         for starr in star:
             starr.y+=5
-
-        for r in tab_ast:
-            if r.y < hauteur:
-                tab_ast2.append(r)
-        tab_ast = tab_ast2
 
         for c in coin:
             if c.y < hauteur-c.h:
@@ -278,6 +276,11 @@ def corps():
             if r.colliderect(rectv):
                 vie=vie-1
                 r.y = hauteur
+                print(r.y)
+        for r in tab_ast:
+            if r.y < hauteur:
+                tab_ast2.append(r)
+        tab_ast = tab_ast2
 
 #collision entre les tirs ennemis et le vaisseau
         for recttirenn in tab_tirenn:
@@ -285,6 +288,7 @@ def corps():
                 vie=vie-1
                 vitessevaisseau=10
                 recttirenn.y = hauteur
+
 
 #collision entre vaisseau ennemis et le vaisseau
         for rectenn in tab_enn:
@@ -295,14 +299,13 @@ def corps():
 #collision entre le vaisseau et la piece
         for c in coin:
             if rectv.colliderect(c):
-                vie=vie+1
-                c.y= hauteur
+                vie = vie+3
+                c.y = hauteur
 #collision entre le vaisseau et l'etoile
         for v in star:
             if rectv.colliderect(v):
                 vitessevaisseau=20
-                v.y= hauteur
-
+                v.y = hauteur
 
         for r in tab_tir:
             for tir in tab_tirenn:
