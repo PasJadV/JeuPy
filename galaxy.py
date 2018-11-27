@@ -17,6 +17,9 @@ imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
 imgaccueil= pygame.image.load("accueil.jpg").convert_alpha()
 imglose = pygame.image.load("photo.png").convert_alpha()
+imglose2 = pygame.image.load("photo2.png").convert_alpha()
+imglose3 = pygame.image.load("photo3.png").convert_alpha()
+
 tab_tirenn=[]
 img_tirenn= pygame.image.load("tirenn.png").convert_alpha()
 tab_ast=[]
@@ -95,8 +98,14 @@ def playagain() :
     playagain = font1.render(("Appuyer sur R pour rejouer"), True, (255,255,255))
     play2 = font1.render((" ou escape pour quitter"), True, (255,255,255))
     rectlose = imglose.get_rect()
-    rectlose.x = 30
-    rectlose.y = 20
+    rectlose.x = largeur/2 - rectlose.w/2
+    rectlose.y = hauteur-rectlose.h
+    rectlose2 = imglose.get_rect()
+    rectlose2.x = 30
+    rectlose2.y = 20
+    rectlose3 = imglose.get_rect()
+    rectlose3.x = largeur- rectlose.w
+    rectlose3.y = 20
     rect_playagain = playagain.get_rect()
     rect_playagain.x = largeur/6
     rect_playagain.y = hauteur/2
@@ -106,6 +115,8 @@ def playagain() :
     fenetre.blit(playagain, rect_playagain)
     fenetre.blit(play2, rectplay2)
     fenetre.blit(imglose, rectlose)
+    fenetre.blit(imglose2, rectlose2)
+    fenetre.blit(imglose3, rectlose3)
 
 def gameover(score) :
     joue()
@@ -192,7 +203,6 @@ def corps():
         pygame.display.flip()
     while continuer==1:
         framerate.tick(30)
-        #print(vie)
         son.play()
         songameover.stop()
 
@@ -276,7 +286,6 @@ def corps():
             if r.colliderect(rectv):
                 vie=vie-1
                 r.y = hauteur
-                print(r.y)
         for r in tab_ast:
             if r.y < hauteur:
                 tab_ast2.append(r)
@@ -396,7 +405,6 @@ def corps():
         if pygame.Rect.colliderect(rectv, rectenn) :
             vie = vie - 1
         if vie <= 0 :
-            print("vie =", vie)
             gameover(score)
         pygame.display.flip()
 
