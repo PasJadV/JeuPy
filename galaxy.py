@@ -12,6 +12,7 @@ hauteur = 640
 fenetre = pygame.display.set_mode((largeur, hauteur), RESIZABLE)
 #---------------------------Medias divers------------------------
 imageFond = pygame.image.load("galaxy.jpg").convert()
+imageFond2 = pygame.image.load("galaxy.jpg").convert()
 imgameov = pygame.image.load("Game.jpg").convert()
 imgvaisseau= pygame.image.load("faucon.png").convert_alpha()
 imgprojectil= pygame.image.load("Projectile.png").convert_alpha()
@@ -147,7 +148,7 @@ def corps():
     rectFond = imageFond.get_rect()
     rectFond.x = -320
     rectFond.y = 0
-    rectFond2 = imageFond.get_rect()
+    rectFond2 = imageFond2.get_rect()
     rectFond2.x = -320
     rectFond2.y = -1280
 
@@ -211,14 +212,14 @@ def corps():
         son.play()
         songameover.stop()
 
-        rectFond.y += 1
-        rectFond2.y += 1
+        rectFond.y += 10
+        rectFond2.y += 10
 
         if rectFond.y >= 640:
-            rectFond.y = -2560
+            rectFond.y = -(1280+640)
         if rectFond2.y >= 640:
-            rectFond2.y = -2560
-    
+            rectFond2.y = -(1280+640)
+
         if joueson==0:
             pygame.mixer.unpause()
 
@@ -385,7 +386,7 @@ def corps():
                         pygame.display.flip()
 
         fenetre.blit(imageFond, rectFond)
-        fenetre.blit(imageFond, rectFond2)
+        fenetre.blit(imageFond2, rectFond2)
         fenetre.blit(imgvaisseau, rectv)
         fenetre.blit(imageText, rectText)
         fenetre.blit(imageText2, rectText2)
