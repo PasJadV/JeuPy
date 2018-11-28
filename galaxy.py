@@ -147,6 +147,9 @@ def corps():
     rectFond = imageFond.get_rect()
     rectFond.x = -320
     rectFond.y = 0
+    rectFond2 = imageFond.get_rect()
+    rectFond2.x = -320
+    rectFond2.y = -1280
 
     tab_ast = []
     rectast = imgastro.get_rect()
@@ -190,6 +193,8 @@ def corps():
         rectmenu.y = hauteur -100
         songameover.stop()
         touche = pygame.key.get_pressed()
+
+
         if touche [pygame.K_SPACE]:
             continuer=1
         fenetre.blit(imgaccueil, rectacc)
@@ -206,6 +211,14 @@ def corps():
         son.play()
         songameover.stop()
 
+        rectFond.y += 1
+        rectFond2.y += 1
+
+        if rectFond.y >= 640:
+            rectFond.y = -2560
+        if rectFond2.y >= 640:
+            rectFond2.y = -2560
+    
         if joueson==0:
             pygame.mixer.unpause()
 
@@ -214,7 +227,7 @@ def corps():
         coin_net = []
         tab_tir2=[]
         temps+=1
-#vague d'astéroide
+#vague d'asteroide
         if temps%5 ==0 and temps < 200:
             rectast = imgastro.get_rect()
             rectast.x = randrange(0,largeur-rectast.w)
@@ -372,6 +385,7 @@ def corps():
                         pygame.display.flip()
 
         fenetre.blit(imageFond, rectFond)
+        fenetre.blit(imageFond, rectFond2)
         fenetre.blit(imgvaisseau, rectv)
         fenetre.blit(imageText, rectText)
         fenetre.blit(imageText2, rectText2)
