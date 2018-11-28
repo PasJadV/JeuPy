@@ -253,7 +253,7 @@ def corps():
             rectstar.y= 0
             star.append(rectstar)
 #tir ennemis
-        if temps%20 == 0 and temps > 250:
+        if temps%30 == 0 and temps > 250:
             for enn in tab_enn:
                 recttirenn = img_tirenn.get_rect()
                 recttirenn.centerx=enn.centerx
